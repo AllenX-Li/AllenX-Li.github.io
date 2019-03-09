@@ -1,0 +1,1237 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Algorithms,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="Application of Union-Find 大三终于下定决心要结束自己的咸鱼生活了，于是开始刷起Coursera的Algorithms: 4th Part 1，在家吹着空调写着代码岂不是美滋滋~这是第一周的编程练习，主要是对Union-Find(并查集)的应用。  问题描述Week 1:Assignment如上图所示，这是一个简单的渗透(Percolation)模型。一个N*N的方格网络，">
+<meta name="keywords" content="Algorithms">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Week 1 Assignment-Percolation">
+<meta property="og:url" content="http://yoursite.com/2017/07/11/Algs4 Union Find/index.html">
+<meta property="og:site_name" content="AllenX-Li&#39;s Blog">
+<meta property="og:description" content="Application of Union-Find 大三终于下定决心要结束自己的咸鱼生活了，于是开始刷起Coursera的Algorithms: 4th Part 1，在家吹着空调写着代码岂不是美滋滋~这是第一周的编程练习，主要是对Union-Find(并查集)的应用。  问题描述Week 1:Assignment如上图所示，这是一个简单的渗透(Percolation)模型。一个N*N的方格网络，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://oka5jdung.bkt.clouddn.com/14997746136934.jpg">
+<meta property="og:image" content="http://oka5jdung.bkt.clouddn.com/14997754713548.jpg">
+<meta property="og:image" content="http://oka5jdung.bkt.clouddn.com/14997761216147.jpg">
+<meta property="og:image" content="http://oka5jdung.bkt.clouddn.com/14997760364462.jpg">
+<meta property="og:image" content="http://oka5jdung.bkt.clouddn.com/14997772031908.jpg">
+<meta property="og:image" content="http://oka5jdung.bkt.clouddn.com/2017-07-11 at 8.58 PM.png">
+<meta property="og:image" content="http://oka5jdung.bkt.clouddn.com/14997791082061.jpg">
+<meta property="og:image" content="http://oka5jdung.bkt.clouddn.com/14997794054699.jpg">
+<meta property="og:updated_time" content="2017-12-09T03:38:23.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Week 1 Assignment-Percolation">
+<meta name="twitter:description" content="Application of Union-Find 大三终于下定决心要结束自己的咸鱼生活了，于是开始刷起Coursera的Algorithms: 4th Part 1，在家吹着空调写着代码岂不是美滋滋~这是第一周的编程练习，主要是对Union-Find(并查集)的应用。  问题描述Week 1:Assignment如上图所示，这是一个简单的渗透(Percolation)模型。一个N*N的方格网络，">
+<meta name="twitter:image" content="http://oka5jdung.bkt.clouddn.com/14997746136934.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'FYRS074UPO',
+      apiKey: 'f5773c3a256395b951c0bd0d66d979f9',
+      indexName: 'AllenLi.github',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/11/Algs4 Union Find/">
+
+
+
+
+
+  <title>Week 1 Assignment-Percolation | AllenX-Li's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AllenX-Li's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">励志成为GEEK的少年</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/11/Algs4 Union Find/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AllenX-Li">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AllenX-Li's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Week 1 Assignment-Percolation</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-11T19:38:13+08:00">
+                2017-07-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithms-4th-学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithms 4th 学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/11/Algs4 Union Find/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/07/11/Algs4 Union Find/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Application-of-Union-Find"><a href="#Application-of-Union-Find" class="headerlink" title="Application of Union-Find"></a>Application of Union-Find</h1><blockquote>
+<p>大三终于下定决心要结束自己的咸鱼生活了，于是开始刷起Coursera的<strong>Algorithms: 4th Part 1</strong>，在家吹着空调写着代码岂不是美滋滋~这是第一周的编程练习，主要是对<strong>Union-Find</strong>(并查集)的应用。</p>
+</blockquote>
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p><img src="http://oka5jdung.bkt.clouddn.com/14997746136934.jpg" alt=""><br><a href="http://coursera.cs.princeton.edu/algs4/assignments/percolation.html" target="_blank" rel="noopener">Week 1:Assignment</a><br>如上图所示，这是一个简单的<strong>渗透(Percolation)</strong>模型。一个N*N的方格网络，里面的方格有两种不同的状态，打开（白色）或者关闭（黑色）。我们可以把他看做一个水槽，黑色就是墙壁，从上方倒水的话，水也会从上往下灌满连通的所有白格子。<br>如果在一个水槽模型中，水能从最上方流至底端，也就是说，底层存在打开的格子并与上方的格子连通，即称这个模型是渗透的。<img src="http://oka5jdung.bkt.clouddn.com/14997754713548.jpg" alt=""></p>
+<p>这是个在科学界比较著名的问题。假设在一个网格区域内，每个格子打开的概率为 <strong>P</strong>，关闭的概率就是 <strong>1-P</strong>。人们找到了一种概率分布，当N足够大时, 有一个阈值P*, 使得当p &lt; p*时候，任意的N*N网格，几乎不能被渗透， 并且当p &gt; p*, 基本能够被渗透。p*没有准确的数值解。<br>我们要做的就是使用Union-Find中的<strong>Union</strong>操作来合并上下左右已经打开的格子，用<strong>Connect</strong>操作来判断顶端和底端是否连通。随机地打开一些格子，来模拟渗透的整个过程。</p>
+<p><img src="http://oka5jdung.bkt.clouddn.com/14997761216147.jpg" alt=""><br>再通过一定的测试数据，使用<a href="https://www.wikiwand.com/en/Monte_Carlo_method" target="_blank" rel="noopener"><strong>Monte Carlo simulation</strong></a>方法来估算P*的值。<br><img src="http://oka5jdung.bkt.clouddn.com/14997760364462.jpg" alt=""></p>
+<p>整个过程可以简化为：</p>
+<ul>
+<li>将所有格子初始化为关闭</li>
+<li>重复以下过程直到系统为渗透的<ul>
+<li>所有关闭的格子中随机挑选一个</li>
+<li>打开它</li>
+</ul>
+</li>
+<li>估算的渗透阈值为：打开的格子数 / 总格子数</li>
+</ul>
+<ul>
+<li style="list-style: none"><input type="checkbox" checked> 这里还有几个任务</li>
+<li style="list-style: none"><input type="checkbox" checked> 需要我们完善</li>
+<li style="list-style: none"><input type="checkbox" checked> ​</li>
+</ul>
+<h2 id="算法思路"><a href="#算法思路" class="headerlink" title="算法思路"></a>算法思路</h2><h3 id="1-Percolation"><a href="#1-Percolation" class="headerlink" title="1. Percolation"></a>1. Percolation</h3><p>根据Percolation给出的API，用于合并打开的格子和判断是否渗透</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Percolation</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">Percolation</span><span class="params">(<span class="keyword">int</span> N)</span>              <span class="comment">// create N-by-N grid, with all sites blocked</span></span></span><br><span class="line"><span class="function">   <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">open</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span>         <span class="comment">// open site (row i, column j) if it is not already</span></span></span><br><span class="line"><span class="function">   <span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isOpen</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span>    <span class="comment">// is site (row i, column j) open?</span></span></span><br><span class="line"><span class="function">   <span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isFull</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span>    <span class="comment">// is site (row i, column j) full?</span></span></span><br><span class="line"><span class="function">   <span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">percolates</span><span class="params">()</span>            <span class="comment">// does the system percolate?</span></span></span><br><span class="line"><span class="function">   <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numberOfOpenSites</span><span class="params">()</span>   <span class="comment">// number of OpenSites</span></span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>在创建了N*N的网格后（ 左上和右下坐标分别为(1,1)和(N,N) ）初始化一个<strong>WeightedQuickUnionUF</strong>对象（包含在官方提供的algs4.jar包中，里面有很多可以直接用的API，import即可）。<br>注意<strong>WeightedQuickUnionUF</strong>对象中进行Union-Find操作使用的是一维数组，所以在Percolation中要注意将直角坐标转换为对应的一维数组的index<br>如果把这个问题看做一个动态连通性问题，在之前的slide中，导师也提到了一种巧妙地方法。</p>
+<p><img src="http://oka5jdung.bkt.clouddn.com/14997772031908.jpg" alt=""></p>
+<p>在顶端和底端分别设置一个虚节点，与第一行和第N行的节点都建立连接，最后只需要判断顶和底部虚节点是否连通就可以了，这样大大减少了复杂性，但是也会带来一些小问题，后面再说。</p>
+<h3 id="2-PercolationStats"><a href="#2-PercolationStats" class="headerlink" title="2. PercolationStats"></a>2. PercolationStats</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PercolationStats</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">PercolationStats</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> t)</span>  <span class="comment">// perform T independent computational experiments on an N-by-N grid</span></span></span><br><span class="line"><span class="function">   <span class="keyword">public</span> <span class="keyword">double</span> <span class="title">mean</span><span class="params">()</span>          <span class="comment">// sample mean of percolation threshold</span></span></span><br><span class="line"><span class="function">   <span class="keyword">public</span> <span class="keyword">double</span> <span class="title">stddev</span><span class="params">()</span>       <span class="comment">// sample standard deviation of percolation threshold</span></span></span><br><span class="line"><span class="function">   <span class="keyword">public</span> <span class="keyword">double</span> <span class="title">confidenceLo</span><span class="params">()</span>      <span class="comment">// returns lower bound of the 95% confidence interval</span></span></span><br><span class="line"><span class="function">   <span class="keyword">public</span> <span class="keyword">double</span> <span class="title">confidenceHi</span><span class="params">()</span>      <span class="comment">// returns upper bound of the 95% confidence interval</span></span></span><br><span class="line"><span class="function">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span>   <span class="comment">// test client (described below)</span></span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>使用 n x n 网格进行 T 次独立实验，打印出样本平均值（sample mean）、样本标准差（sample standard deviation）和 95% 的置信区间。</p>
+<h2 id="算法优化"><a href="#算法优化" class="headerlink" title="算法优化"></a>算法优化</h2><p>在使用顶部和底部虚节点的情况下，会出现backwash的情况，对于一些与bottom连通的结点，即便其于top不连通，但是因为bottom和top连通了，最终会导致这些结点也是full的。</p>
+<p><img src="http://oka5jdung.bkt.clouddn.com/2017-07-11 at 8.58 PM.png" alt="2017-07-11 at 8.58 PM"></p>
+<p>看见我圈起来的那几个格子没，它们其实不应该连通，这种现象称作<strong>Backwash</strong>(回水)。<br>一开始我没想到这个。。然后再加上一堆bug，包括很多Code Style的细节，比如不能是用tab而是要转成4个space….导致前几次commit的分数都惨不忍睹。。。在看了课程讨论中各种大牛的回答后，大致是用下面这个方法，才不至于超时或者复杂度过高</p>
+<h3 id="Backwash解决方案"><a href="#Backwash解决方案" class="headerlink" title="Backwash解决方案"></a>Backwash解决方案</h3><p><code>isFull()</code>用来判断结点是否与top连通，需要注意的是，<code>isFull</code>和下面的<code>percolates()</code>并不是一个意思，percolation用来判断整个matrix是否上下连通，考虑的是总体情况，而对于某一个结点而言，它可能是full的（与top连接），但是并不在percolation的路径上，而这里也是产生backwash的主要原因</p>
+<p>所以我们可以用两张表来维护格子之间的关系</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uf = <span class="keyword">new</span> WeightedQuickUnionUF(N * N + <span class="number">2</span>);</span><br><span class="line">uf1 = <span class="keyword">new</span> WeightedQuickUnionUF(N * N + <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<p><code>uf</code>的最后一行是连通的，<code>uf1</code>不连通，其他地方都一样。<br>如果要检查是否是渗透模型<code>percolates()</code>，就用<code>uf</code>。<br>如果要<strong>具体看每一个格子是否有水<code>isFull()</code>，就用<code>uf1</code>。</strong><br><strong>这样虽然占用的内存资</strong>源大了一块，但是省下了依次检查最下一行每一个格的时间。</p>
+<h2 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">javac -cp ~/Code/Algorithms\ 4th/algs4.jar PercolationVisualizer.java Percolation.java // 编译 </span><br><span class="line">java -cp ~/Code/Algorithms\ 4th/algs4.jar: PercolationVisualizer sedgewick60.txt //运行</span><br></pre></td></tr></table></figure>
+<p>好啦，官方提供了好多很有意思的test case. 他们帮你写好了一个<strong>PercolationVisualizer</strong>，运行后的效果…<br><img src="http://oka5jdung.bkt.clouddn.com/14997791082061.jpg" alt=""></p>
+<p>又比如</p>
+<p><img src="http://oka5jdung.bkt.clouddn.com/14997794054699.jpg" alt=""></p>
+<p>很魔性有没有😂<br>AC后感觉又有了学习的动力~</p>
+<h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><p><a href="https://github.com/AllenX-Li/Algorithms-4th-Assignment" target="_blank" rel="noopener">See in github</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Algorithms/" rel="tag"># Algorithms</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/13/TOEFl Writing 思路/" rel="prev" title="TOEFl Writing 思路">
+                TOEFl Writing 思路 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="AllenX-Li">
+          <p class="site-author-name" itemprop="name">AllenX-Li</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/AllenX-Li" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/AllenX_Li" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/5198837649" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:ljl178824583@outlook.com" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Application-of-Union-Find"><span class="nav-number">1.</span> <span class="nav-text">Application of Union-Find</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题描述"><span class="nav-number">1.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法思路"><span class="nav-number">1.2.</span> <span class="nav-text">算法思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Percolation"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. Percolation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-PercolationStats"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. PercolationStats</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法优化"><span class="nav-number">1.3.</span> <span class="nav-text">算法优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Backwash解决方案"><span class="nav-number">1.3.1.</span> <span class="nav-text">Backwash解决方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行结果"><span class="nav-number">1.4.</span> <span class="nav-text">运行结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源代码"><span class="nav-number">1.5.</span> <span class="nav-text">源代码</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2018 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AllenX-Li</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://https-allenx-li-github-io.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2017/07/11/Algs4 Union Find/';
+          this.page.identifier = '2017/07/11/Algs4 Union Find/';
+          this.page.title = 'Week 1 Assignment-Percolation';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://https-allenx-li-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
